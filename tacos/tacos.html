@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>titiriki</title>
+	<style>
+		/* All of our CSS code goes here... */
+		* {
+			/*outline: 1px dotted purple; */
+		}
+
+		.wall {
+			width: 50px;
+			height: 50px;
+			background-image: url('wall.png');
+			display: inline-block;
+		}
+		.taco {
+			width: 50px;
+			height: 50px;
+			background-image: url('taco.png');
+			display: inline-block;
+		}
+		.ground {
+			width: 50px;
+			height: 50px;
+			background-image: url('bg.png');
+			display: inline-block;
+		}
+		.ghost {
+			width: 50px;
+			height: 50px;
+			background-image: url('ghost1.png');
+			display: inline-block;
+		}
+		.titiriki {
+			width: 50px;
+			height: 50px;
+			background-image: url('titiriki.png');
+			display: inline-block;
+		}
+
+		div {
+			line-height: 0px;
+		}
+
+
+
+
+		/* End of CSS */
+	</style>
+</head>
+<body>
+	<!-- All of our HTML code goes here... -->
+
+	<div id='world'>
+
+	</div>
+	<audio src="crunch.mp3" id="sound"></audio>
+
+	<!-- End of HTML-->
+</body>
+<script>
+	var sound = document.getElementById('sound');
+
+	function preload() {
+		Sound = loadSound("../Portfolio/tacos/crunch.mp3");
+	}
+
+	// 1 => <div class='wall'></div>
+	// 2 => <div class=''></div>
+	// 3 => <div class='ground'></div>
+	// 4 => <div class='ghost'></div>
+	// 5 => <div class='titiriki'></div>
+	// map = [ 1, 2, 3 ]
+	// map = [ [1,2,3], [1,2,3], [1,2,3] ];
+
+	titiriki = {
+		x: 6,
+		y: 4
+	}
+
+	map = [
+		[1,1,1,1,1,1,1,1,1,1,1,1,1],
+		[1,2,2,2,2,2,1,2,2,2,2,2,1],
+		[1,2,1,1,1,2,1,2,1,1,1,2,1],
+		[1,2,1,2,2,2,2,2,2,2,1,2,1],
+		[1,2,2,2,1,1,5,1,1,2,2,2,1],
+		[1,2,1,2,2,2,2,2,2,2,1,2,1],
+		[1,2,1,1,2,2,1,2,2,1,1,2,1],
+		[1,2,2,2,2,2,1,2,2,2,2,2,1],
+		[1,1,1,1,1,1,1,1,1,1,1,1,1]
+	]
+
+	var el = document.getElementById('world');
+
+	function drawWorld(){
+		el.innerHTML = '';
+		for(var y = 0; y < map.length ; y = y + 1) {
+			for(var x = 0; x < map[y].length ; x = x + 1) {
+				if (map[y][x] === 1) {
+					el.innerHTML += "<div class='wall'></div>";
+				}
+				else if (map[y][x] === 2) {
+					el.innerHTML += "<div class='taco'></div>";
+				}
+				else if (map[y][x] === 3) {
+					el.innerHTML += "<div class='ground'></div>";
+				}
+				else if (map[y][x] === 4) {
+					el.innerHTML += "<div class='ghost'></div>";
+				}
+				else if (map[y][x] === 5) {
+					el.innerHTML += "<div class='titiriki'></div>";
+				}
+			}
+			el.innerHTML += "<br>";
+		}
+	}
+
+	drawWorld();
+
+	document.onkeydown = function(event){
+		// console.log(event);
+		if (event.keyCode === 37){ // titiriki MOVE LEFT
+			if ( map[titiriki.y][titiriki.x-1] !== 1){
+				sound.play();
+				map[titiriki.y][titiriki.x] = 3;
+				titiriki.x = titiriki.x - 1;
+				map[titiriki.y][titiriki.x] = 5;
+				drawWorld();
+			}
+		}
+		else if (event.keyCode === 38){ // titiriki MOVE UP
+			if ( map[titiriki.y-1][titiriki.x] !== 1)
+			{	sound.play();
+				map[titiriki.y][titiriki.x] = 3;
+				titiriki.y = titiriki.y - 1;
+				map[titiriki.y][titiriki.x] = 5;
+				drawWorld();
+			}
+		}
+		else if (event.keyCode === 39){ // titiriki MOVE RIGHT
+			if ( map[titiriki.y][titiriki.x+1] !== 1){
+				sound.play();
+				map[titiriki.y][titiriki.x] = 3;
+				titiriki.x = titiriki.x + 1;
+				map[titiriki.y][titiriki.x] = 5;
+				drawWorld();
+			}
+		}
+		else if (event.keyCode === 40){ // titiriki MOVE DOWN
+			if ( map[titiriki.y+1][titiriki.x] !== 1){
+				sound.play();
+				map[titiriki.y][titiriki.x] = 3;
+				titiriki.y = titiriki.y + 1;
+                map[titiriki.y][titiriki.x] = 5;
+				drawWorld();
+			}
+		}
+		console.log(map)
+	}
+
+
+
+
+
+	// End of JavaScript
+</script>
+</html>
